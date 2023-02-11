@@ -10,7 +10,7 @@ function dbQuery(pool) {
 function dbInsertValues(tableName) {
     return   insertValuesMap =>  {
         const [keys,values] =   separateKeyValueFromMap(insertValuesMap);
-        const query =`insert into ${tableName} (${keys}) values  (${values} )`;
+        const query =`insert into ${tableName} (${keys}) values  (${values})`;
         return query;
     }
 }
@@ -36,14 +36,14 @@ function dbCheckExistence(tableName) {
     }
 }
 
-function separateKeyValueFromMap(map) {
-    const keys =    [...map.keys()];
-    const values = keys.reduce((acc,v) =>  [...acc , map.get(v)],[] ).map(v => "'" + v + "'") ;
+function separateKeyValueFromMap(collumnsValueMap) {
+    const keys =    [...collumnsValueMap.keys()];
+    const values = keys.reduce((acc,v) =>  [...acc , collumnsValueMap.get(v)],[] ).map(v => "'" + v + "'") ;
     return [keys.join(','),values.join(',')];
 }
 
 const dbMakeQueries = dbQuery(pool);
-export {dbMakeQueries,dbInsertValues,dbDeleteRows,dbCheckExistence,dbSelectRows};
+export {dbMakeQueries,dbInsertValues,dbDeleteRows,dbCheckExistence,dbSelectRows,separateKeyValueFromMap};
 
 
 

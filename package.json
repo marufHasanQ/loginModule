@@ -2,9 +2,17 @@
     "name": "dbproject",
     "version": "1.0.0",
     "description": "",
-    "main": "script.mjs",
+    "main": "./src/script.mjs",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node ./src/script.mjs",
+        "itest": "echo \"Error: no test specified\" && exit 1",
+        "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    },
+    "jest": {
+        "transform": {},
+        "testMatch": [
+            "**/?(*.)test.?js"
+        ]
     },
     "keywords": [],
     "author": "",
