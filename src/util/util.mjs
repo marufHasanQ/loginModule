@@ -13,7 +13,7 @@ function getUserData(email) {
 function checkUserExistence(email) {
     const query = dbCheckExistence('users')(`email = '${email}'`)
     return dbMakeQueries([query])
-        .then(v =>  v[0].value.rows[0].exists)
+        .then(v => v[0].value.rows[0].exists)
 }
 
 function checkPassword(userPassword) {
@@ -55,9 +55,34 @@ function createJWT(key) {
         )
     }
 }
- bcrypt.hash('pass',10) 
-.then( data => bcrypt.compare('pass',data) )
-.then( console.log );
+bcrypt.hash('pass', 10)
+    .then(data => bcrypt.compare('pass', data))
+    .then(console.log);
+
+
+function getUserInfo(req) {
+    return getFormData(req)
+        //.then(v => console.log('dodo', v))
+        .then(v => parseFormData(v))
+        .then(v => console.log('formData', v));
+
+    function getFormData(req) {
+        let data = '';
+        req.on('data', chunk => data = data + chunk)
+        return new Promise((resolve, reject) => {
+            req.on('end', chunk => {resolve(data)})
+        }
+        )
+    }
+    function parseFormData(formData) {
+        return new Map(formData
+            .split('&')
+            .map(v => v
+                .split('='))
+        );
+    }
+}
+
 /*
  bcrypt.hash('password', 10)
     .then(logger('hash'))
@@ -66,4 +91,4 @@ function createJWT(key) {
     .then(data => console.log(data));
 */
 //export{ checkUserExistence ,createJWT, logger, get
-export {getUserPassword, getUserData, checkPassword, checkUserExistence, logger, createJWT, addNewUser};
+export {getUserPassword, getUserData, checkPassword, checkUserExistence, logger, createJWT, addNewUser, getUserInfo};

@@ -1,7 +1,7 @@
 import {dbMakeQueries, dbSelectRows, dbInsertValues, dbDeleteRows, dbCheckExistence} from './db/queryFunction.mjs';
 //import * as dotenv from 'dotenv'
 
-function loginFunction(userInput) {
+function loginDatabaseFunction(userInput) {
     return checkUserExistence(userInput.email)
         .then(v => logger(v))
         //TODO  if users doesn't exist Promise.reject()

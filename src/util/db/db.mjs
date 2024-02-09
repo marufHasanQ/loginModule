@@ -13,7 +13,6 @@ const {Pool} = pg;
 })
 */
 
-console.log('loslso');
 
 const connectionString = process.env.CONNECTION_STRING;
 //'postgresql://postgres:ZqhDa2ZHuBX0SdYuUP1R@containers-us-west-39.railway.app:7706/railway';
