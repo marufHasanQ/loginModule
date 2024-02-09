@@ -1,7 +1,6 @@
 import pg from 'pg';
-import  dotenv  from "dotenv";
+import dotenv from "dotenv";
 const {Pool} = pg;
-dotenv.config();
 //const {Client} = require('pg')
 
 /*
@@ -22,10 +21,9 @@ const connectionString = process.env.CONNECTION_STRING;
 console.log(process.env.CONNECTION_STRING);
 function createConnectionPool() {
 
-    return new Pool( {
+    return new Pool({
         connectionString
-    }
-    )
+    })
 }
 
 export {createConnectionPool};

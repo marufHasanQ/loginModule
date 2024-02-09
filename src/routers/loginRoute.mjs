@@ -1,7 +1,7 @@
-import { open } from 'node:fs/promises';
+import {setTokenToCookie} from '../util/token/token.mjs';
+function loginRouter(req, res) {
 
-const loginView= await open('../views/loginView.html');
-const loginViewStream = loginView.createReadStream();
-
-loginViewStream.on('data', (chunk) => console.log(chunk));
+    setTokenToCookie(res, {name: "random"})
+}
+export {loginRouter};
 

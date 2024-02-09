@@ -22,5 +22,8 @@
         "dotenv": "^16.0.3",
         "jsonwebtoken": "^8.5.1",
         "pg": "^8.8.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.16"
     }
 }
