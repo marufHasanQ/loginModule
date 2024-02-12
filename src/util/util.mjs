@@ -1,31 +1,28 @@
 
 import {dbMakeQueries, dbSelectRows, dbInsertValues, dbDeleteRows, dbCheckExistence} from './db/queryFunction.mjs';
 
-import bcrypt from 'bcryptjs'
-
-import jwt from 'jsonwebtoken'
 
 function getUserData(email) {
-    return dbMakeQueries([dbSelectRows('users')('password')(`email = '${email}'`)])
+
+    return dbSelectRows("User")('password')(`email = '${email}'`)
         .then((v) => v[0].value.rows[0])
 }
 
-function checkUserExistence(email) {
-    const query = dbCheckExistence('users')(`email = '${email}'`)
-    return dbMakeQueries([query])
-        .then(v => v[0].value.rows[0].exists)
-}
-
 function checkPassword(userPassword) {
+
     return dbPassword => bcrypt.compare(userPassword, dbPassword)
 }
 
-function getUserPassword(email) {
-    return dbMakeQueries([dbSelectRows('users')(['password'])(`email = '${email}'`)])
-        .then((v) => v[0].value.rows[0].password//v[0].value.rows[0]
-            //console.log(v[0].value.rows[0].password)
+function checkUserExistence(email) {
 
-        )
+    return dbCheckExistence("User")(`email = '${email}'`)
+}
+
+function getUserPassword(email) {
+
+    const PASSWORD_COLUMN_NAME = 'password';
+    return dbSelectRows("User")([PASSWORD_COLUMN_NAME])(`email = '${email}'`)
+        .then((v) => v[0][PASSWORD_COLUMN_NAME])
 }
 
 function addNewUser(userInput) {
@@ -44,30 +41,4 @@ function logger(v) {
     return v;
 }
 
-function createJWT(key) {
-    return expiresTime => data => {
-        return jwt.sign(
-            data,
-            key,
-            {
-                expiresIn: expiresTime,
-            }
-        )
-    }
-}
-bcrypt.hash('pass', 10)
-    .then(data => bcrypt.compare('pass', data))
-    .then(console.log);
-
-
-
-
-/*
- bcrypt.hash('password', 10)
-    .then(logger('hash'))
-    .then(logger)
-    .then(v => bcrypt.compare('password', v))
-    .then(data => console.log(data));
-*/
-//export{ checkUserExistence ,createJWT, logger, get
-export {getUserPassword, getUserData, checkPassword, checkUserExistence, logger, createJWT, addNewUser};
+export {getUserPassword, getUserData, checkPassword, checkUserExistence, logger, addNewUser};
