@@ -60,28 +60,7 @@ bcrypt.hash('pass', 10)
     .then(console.log);
 
 
-function getUserInfo(req) {
-    return getFormData(req)
-        //.then(v => console.log('dodo', v))
-        .then(v => parseFormData(v))
-        .then(v => console.log('formData', v));
 
-    function getFormData(req) {
-        let data = '';
-        req.on('data', chunk => data = data + chunk)
-        return new Promise((resolve, reject) => {
-            req.on('end', chunk => {resolve(data)})
-        }
-        )
-    }
-    function parseFormData(formData) {
-        return new Map(formData
-            .split('&')
-            .map(v => v
-                .split('='))
-        );
-    }
-}
 
 /*
  bcrypt.hash('password', 10)
@@ -91,4 +70,4 @@ function getUserInfo(req) {
     .then(data => console.log(data));
 */
 //export{ checkUserExistence ,createJWT, logger, get
-export {getUserPassword, getUserData, checkPassword, checkUserExistence, logger, createJWT, addNewUser, getUserInfo};
+export {getUserPassword, getUserData, checkPassword, checkUserExistence, logger, createJWT, addNewUser};

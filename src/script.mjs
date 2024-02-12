@@ -5,7 +5,6 @@ import {logoutRouter} from "./routers/logoutRoute.mjs";
 import {otherRouter} from "./routers/otherRoute.mjs";
 import {setTokenToCookie, verifyToken, unsetTokenToCookie} from './util/token/token.mjs';
 //import {dbMakeQueries, dbInsertValues, dbDeleteRows} from './db/queryFunction.mjs';
-let data = '';
 dotenv.config();
 
 http
@@ -13,8 +12,6 @@ http
     .listen(9111, () => console.log('server is listening on port 9111'));
 
 function requestListener(req, res) {
-    req.on('data', chunk => data = data + chunk)
-    req.on('end', chunk => {console.log(data)})
     if (req.url === '/login') {
         console.log(req.url);
         loginRouter(req, res);
