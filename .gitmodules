@@ -1,0 +1,3 @@
+[submodule "src/util/db/nodePostORM"]
+	path = src/util/db/nodePostORM
+	url = git@github.com:marufHasanQ/nodePostORM.git
