@@ -42,6 +42,7 @@ async function verify(password, hash) {
         });
     })
 }
+export{ hash, verify}
 /*
 (async function run() {
     const password1 = await hash("123456")

@@ -1,16 +1,15 @@
 import jwt from 'jsonwebtoken'
-import * as dotenv from 'dotenv'
+//import * as dotenv from 'dotenv'
 const COOKIE_NAME = 'tokenCookie';
-dotenv.config()
-//console.log('valuessss', verifyToken(req.headers.cookie, 'token'));
-console.log(process.env.RED, process.env.JWT_ACCESS_TOKEN_SECRET);
+//dotenv.config()
 
 function setTokenToCookie(res, data, jwtCookieName = COOKIE_NAME) {
 
+    //console.log('env variable', process.env);
     const token = getToken(data);
     res.setHeader('Set-Cookie', `${jwtCookieName}=${token}`);
 
-    return res;
+    return token;
 }
 
 function unsetTokenToCookie(res, jwtCookieName = COOKIE_NAME) {
@@ -28,8 +27,8 @@ function getToken(data, options = {expiresIn: '40s'}) {
 function verifyToken(req, res, jwtCookieName = COOKIE_NAME) {
     const jwtToken = getNamedCookie(req, jwtCookieName);
 
+    console.log('jwtToken: ', jwtToken);
     if (!jwtToken) {
-        console.log(' need to login ', jwtToken);
         throw 'need to login';
     }
 
@@ -51,7 +50,6 @@ function verifyToken(req, res, jwtCookieName = COOKIE_NAME) {
 
     function getNamedCookie(req, jwtCookieName) {
         //https://stackoverflow.com/a/15724300
-        //console.log(req.headers);
         const cookies = req.headers.cookie;
 
 

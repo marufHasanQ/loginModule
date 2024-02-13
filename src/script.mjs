@@ -1,24 +1,36 @@
-import http from "http";
 import * as dotenv from 'dotenv'
+dotenv.config();
+import http from "http";
 import {loginRouter} from "./routers/loginRoute.mjs";
 import {logoutRouter} from "./routers/logoutRoute.mjs";
 import {otherRouter} from "./routers/otherRoute.mjs";
+import {registerRouter} from "./routers/registerRoute.mjs";
 import {setTokenToCookie, verifyToken, unsetTokenToCookie} from './util/token/token.mjs';
-//import {dbMakeQueries, dbInsertValues, dbDeleteRows} from './db/queryFunction.mjs';
-dotenv.config();
 
 http
     .createServer(requestListener)
     .listen(9111, () => console.log('server is listening on port 9111'));
 
 function requestListener(req, res) {
-    if (req.url === '/login') {
-        console.log(req.url);
-        loginRouter(req, res);
+    if (req.url === '/register') {
+        registerRouter(req, res)
+            .then(v => res.end('registration successfull'))
+            .catch((e) => {
+                console.log(e);
+                res.end(e);
+            })
 
+    }
+    else if (req.url === '/login') {
+        console.log(req.url);
+        loginRouter(req, res)
+            .then(v => res.end('login successfull'))
+            .catch(e => {
+                console.log('error', e);
+                res.end(e);
+            })
         console.log('inside login');
-        res.writeHead(200);
-        res.end('inside login');
+        // res.end('inside login\n');
         return;
     }
 
@@ -46,8 +58,9 @@ function requestListener(req, res) {
             otherRouter(req, res);
             res.end('okk');
         }
-        catch {
-            res.end('need to login');
+        catch (e) {
+            console.log('');
+            res.end(e);
         }
     }
 

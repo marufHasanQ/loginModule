@@ -1,18 +1,17 @@
-import {checkUserExistencea, getUserPassword, getUserPassword, logger} from './util.mjs';
+import {checkUserExistence, getUserPassword, logger} from './util.mjs';
 
 function loginDatabaseFunction(userInput) {
-    return checkUserExistence(userInput.email)
-        .then(v => logger(v))
+    return checkUserExistence(userInput.get('email'))
+        .then(v => logger('checkUserExistence', v))
         //TODO  if users doesn't exist Promise.reject()
-        .then(v => getUserPassword(userInput.email))
-        .then(v => logger(v))
-        .then(v => v ? true : Promise.reject('wrong password'))
-        .then(v => logger(v))
+        .then(v => {if (v) return true; throw 'User doesnt exist';})
+        .then(v => getUserPassword(userInput.get('email')))
+    /*
         .then(v => getUserData(userInput.email))
         .then(v => logger(v))
         .catch(v => console.log(v));
+        */
 }
-
 
 
 export {loginDatabaseFunction};

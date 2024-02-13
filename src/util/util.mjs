@@ -1,5 +1,4 @@
-
-import {dbMakeQueries, dbSelectRows, dbInsertValues, dbDeleteRows, dbCheckExistence} from './db/queryFunction.mjs';
+import {dbSelectRows, dbInsertValues, dbDeleteRows, dbCheckExistence} from './db/nodePostORM/queryFunction.mjs';
 
 
 function getUserData(email) {
@@ -8,10 +7,6 @@ function getUserData(email) {
         .then((v) => v[0].value.rows[0])
 }
 
-function checkPassword(userPassword) {
-
-    return dbPassword => bcrypt.compare(userPassword, dbPassword)
-}
 
 function checkUserExistence(email) {
 
@@ -25,20 +20,27 @@ function getUserPassword(email) {
         .then((v) => v[0][PASSWORD_COLUMN_NAME])
 }
 
-function addNewUser(userInput) {
-    return bcrypt.hash(userInput.password, 10)
-        .then(hash => {
-            const userInfoMap = new Map([['email', userInput.email], ['password', hash]]);
-            return userInfoMap;
+function addNewUser(userInfoMap, hashedPassword) {
+    userInfoMap.set('password', hashedPassword)
 
-        })
-        .then(userInfoMap => dbMakeQueries([dbInsertValues('users')(userInfoMap)]));
+    return dbInsertValues('User')(userInfoMap);
 }
 
+function validateUserInput(userInput) {
+    const email = userInput.get('email');
+    const password = userInput.get('password');
+    const validateEmail = email => email.length >= 0;
+    const validatePassword = email => email.length >= 0;
+    if (!validateEmail(email))
+        throw 'Invalidate Email'
+    if (!validatePassword(password))
+        throw 'Invalidate Password'
+    return true;
+}
 
-function logger(v) {
-    console.log(v);
+function logger(header, v) {
+    console.log(header, v);
     return v;
 }
 
-export {getUserPassword, getUserData, checkPassword, checkUserExistence, logger, addNewUser};
+export {getUserPassword, getUserData, checkUserExistence, logger, addNewUser, validateUserInput};

@@ -2,7 +2,6 @@ function getUserInfo(req) {
     return getFormData(req)
         //.then(v => console.log('dodo', v))
         .then(v => parseFormData(v))
-        .then(v => console.log('formData', v));
 
     function getFormData(req) {
         let data = '';
@@ -20,3 +19,4 @@ function getUserInfo(req) {
         );
     }
 }
+export {getUserInfo}
